@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./index.js"></script>
+    <script>
+        const proxyUser1 = shallowReactive({
+            name:'小红',
+            car:{
+                color:'red'
+            }
+        })
+
+        // proxyUser1.name += '-'
+        // proxyUser1.car.color += '-'
+        // delete proxyUser1.name
+        //拦截不到删除
+        // delete proxyUser1.car.color
+
+        const proxyUser2 = reactive({
+            name:'小明',
+            car:{
+                color:'white'
+            }
+        })
+        // proxyUser2.name += '-'
+        // proxyUser2.car.color += '-'
+        //拦截到了深层
+        // delete proxyUser2.car.color
+
+        //=================================
+        //测试shallowReadonly和readonly
+        const proxyUser3 = shallowReadonly({
+            name:'小明',
+            car:['奔驰','宝马']
+        })
+
+        //不可修改
+        // proxyUser3.name += '-'
+        //只读的，拦截不了深度的修改
+        // proxyUser3.car[1] = 'BYD'
+
+        const proxyUser4 = readonly({
+            name:'小明',
+            car:['奔驰','宝马']
+        })
+
+        //拦截到了深度的修改
+        // proxyUser4.car[1] = 'BYD'
+
+        //=================================
+        //测试shallowRef 和 ref
+        const ref1 = shallowRef({
+            name:'小明',
+            car:{
+                color:'white'
+            }
+        })
+        //劫持到
+        // ref1.value = '='
+        //劫持不到
+        // ref1.value.name = '-'
+
+        const ref2 = ref({
+            name:'小明',
+            car:{
+                color:'white'
+            }
+        })
+
+        //劫持到
+        // ref2.value = '='
+        //劫持到
+        // ref2.value.name = '-'
+        // ref2.value.car.color = '-'
+    </script>
+</body>
+</html>
